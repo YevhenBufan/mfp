@@ -4,10 +4,10 @@ const { ModuleFederationPlugin } = require("webpack").container;
 const packageJson = require('../package.json');
 
 const prodConfig = {
-    mode: "production",
+    mode: 'production',
     output: {
-        filename: "[name].[contenthash].js",
-        publicPath: "/marketing/latest/",
+        filename: '[name].[contenthash].js',
+        publicPath: '/marketing/latest/',
     },
     plugins: [
         new ModuleFederationPlugin({
@@ -18,7 +18,7 @@ const prodConfig = {
             },
             shared: packageJson.dependencies,
         }),
-    ]
-}
+    ],
+};
 
 module.exports = merge(commonConfig, prodConfig)

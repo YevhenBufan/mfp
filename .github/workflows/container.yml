@@ -14,6 +14,8 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PRODUCTION_DOMAIN_ID: ${{ secrets.PRODUCTION_DOMAIN_ID }}
 
     steps:
       - name: Checkout Code
@@ -24,8 +26,6 @@ jobs:
 
       - name: Build Project
         run: npm run build
-        env:
-          PRODUCTION_DOMAIN_ID: ${{ secrets.PRODUCTION_DOMAIN_ID }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
