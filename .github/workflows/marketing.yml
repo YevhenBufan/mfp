@@ -1,15 +1,15 @@
-name: Deploy Container
+name: Deploy marketing
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'packages/container/**'
+      - 'packages/marketing/**'
 
 defaults:
   run:
-    working-directory: packages/container
+    working-directory: packages/marketing
 
 jobs:
   build:
@@ -24,8 +24,6 @@ jobs:
 
       - name: Build Project
         run: npm run build
-        env:
-          production_domain: ${{ secrets.PRODUCTION_DOMAIN }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -35,7 +33,7 @@ jobs:
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
       - name: Upload to S3
-        run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
+        run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/marketing/latest
 
       - name: Create CloudFront invalidation
-        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/container/latest/index.html"
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} --paths "/marketing/latest/index.html"
