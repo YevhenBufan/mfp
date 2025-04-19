@@ -12,7 +12,7 @@ defaults:
     working-directory: packages/container
 
 jobs:
-  build:
+  lint-test-build-deploy:
     runs-on: ubuntu-latest
     env:
       PRODUCTION_DOMAIN_ID: ${{ secrets.PRODUCTION_DOMAIN_ID }}
@@ -21,8 +21,34 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: ⚡ Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Dependencies
         run: npm install
+
+      - name: Run Tests
+        run: npm run test -- --ci --coverage
+
+      - name: Run Super Linter
+        uses: github/super-linter@v5
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LINTER_RULES_PATH: .github/linters
+          RUN_LOCAL: true
+          FILTER_REGEX_INCLUDE: .*packages/container/.*
+          VALIDATE_ALL_CODEBASE: false
 
       - name: Build Project
         run: npm run build
