@@ -1,6 +1,6 @@
 import React, {lazy, Suspense, useEffect, useState} from 'react';
-import Header from './components/Header'
-import {BrowserRouter, Route, Switch, Router, Redirect} from 'react-router-dom'
+import Header from './components/Header/Header'
+import { Route, Switch, Router, Redirect} from 'react-router-dom'
 import {StylesProvider, createGenerateClassName} from "@material-ui/core";
 import Progress from "./components/Progress";
 import {createBrowserHistory} from 'history';
