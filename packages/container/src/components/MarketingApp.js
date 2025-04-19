@@ -7,8 +7,6 @@ export default () => {
     const history = useHistory();
 
     useEffect(() => {
-        // We are calling the mount function from the marketing app
-        // and passing in the ref as the el parameter
         const {onParentNavigate } = mount(ref.current, {
             initialPath: history.location.pathname,
             onNavigate: ( {pathname: nextPathName} ) => {
